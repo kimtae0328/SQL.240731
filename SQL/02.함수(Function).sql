@@ -101,9 +101,10 @@ WHERE INSTR('D1|D2|D3', DEPT_ID) > 0;
 
 /*
     4) LPAD/RPAD
-    - LPAD/RPAD(값, 길이)
-
-
+    - LPAD/RPAD(값, 길이)[, '덧붙이려고 하는 문자']
+    - 제시된 값에 임의의 문자를 왼쪽 또는 오른쪽에
+      붙여 최종 N길이 만큼 문자열을 반환
+    - 문자를 통일감있게 표시하고자 할때 사용
 */
 -- 20만큼의 길이중 EMAIL은 오른쪽으로 정렬, 공백은 왼쪽으로 채움
 -- 왼쪽공백
@@ -118,4 +119,39 @@ SELECT EMAIL, LPAD(EMAIL, 20, '*'), RPAD(EMAIL, 20, '$'), RPAD(EMAIL, 2)
 FROM EMP;
 -- 사원테이블에서 주민등록번호의 뒤 1자리까지 추출하고 오른쪽에 *문자를 채워서 출력
 SELECT EMP_NO, SUBSTR(EMP_NO, 1, INSTR(EMP_NO, '-') + 1) || '******'
+FROM EMP;
+
+/*
+    5) LOWER / UPPER / INITCAP
+    - LOWER|UPPER|INITCAP (컬럼|'문자값')
+     LOWER : 모두 소문자로 변경
+     UPPER : 모두 대문자로 변경
+     INITCAP : 단어 앞 글자마다 대문자로 변경
+*/
+
+SELECT LOWER('ABCD'), UPPER('abcd'), INITCAP('abcd abcd')
+FROM DUAL;
+
+/* 6) CONCAT 
+   - CONCAT(컬럼|'문자열', 컬럼|'문자열') == ||
+   - 문자데이터 두개를 전달 받아서 하나로 합친후 결과를 반환
+*/
+
+-- 인수는 2개만 넣을수있음
+-- > 3개이상 넣을경우 인수의 갯수가 부적합합니다 오류발생
+
+SELECT CONCAT('hello', 'world')
+FROM DUAL;
+
+/*
+    7) REPLACE : 치환, 바꾸기
+    - REPLACE(컬럼|'문자값', 변경하려는 문자, 변경하고자 하는 문자)
+    - 컬럼, 문자값에서 변경하고자 하는 문자를 변경하려는 문자로 변경하여 반환
+*/
+
+SELECT replace('서울시 강남구 역삼동', '역삼동', '삼성동')
+FROM DUAL;
+
+-- OR.KR > GMAIL.COM 으로 변경
+SELECT EMP_NAME, EMAIL, replace(EMAIL, 'or.kr', 'gmail.com')
 FROM EMP;
